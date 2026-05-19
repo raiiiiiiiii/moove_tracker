@@ -349,6 +349,7 @@ export default function Dashboard() {
               </div>
             ))}
           </div>
+        </section>
         {/* Beta Estimator Disclaimer Card */}
         <section className="card" style={{ gridColumn: '1 / -1', padding: '16px', background: 'rgba(255, 214, 0, 0.02)', border: '1px dashed rgba(255, 214, 0, 0.2)', display: 'flex', alignItems: 'center', gap: '12px', borderRadius: '12px' }}>
           <div style={{ fontSize: '1.25rem' }}>⚠️</div>
