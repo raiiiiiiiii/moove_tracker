@@ -67,19 +67,31 @@ export default async function handler(req, res) {
       }
     )
 
-    if (userRes.status === 401 || userRes.status === 403) {
-      return res.status(500).json({
-        success: false,
-        error: 'API_AUTHENTICATION_FAILED',
-        message: 'Unable to authenticate with the X API. Please verify the bearer token.'
-      })
-    }
+    if (!userRes.ok) {
+      let xError = {}
+      try { xError = await userRes.json() } catch (_) {}
+      const details = xError.detail || xError.title || `HTTP ${userRes.status}`
+      
+      if (userRes.status === 401 || userRes.status === 403) {
+        return res.status(500).json({
+          success: false,
+          error: 'API_AUTHENTICATION_FAILED',
+          message: `X API Authentication Failed: ${details}. Note: Free-tier Developer accounts do not support user details lookups (requires Basic tier or higher).`
+        })
+      }
+      
+      if (userRes.status === 429) {
+        return res.status(429).json({
+          success: false,
+          error: 'RATE_LIMIT_EXCEEDED',
+          message: 'X API User Lookup rate limit reached. Please try again later.'
+        })
+      }
 
-    if (userRes.status === 429) {
-      return res.status(429).json({
+      return res.status(userRes.status).json({
         success: false,
-        error: 'RATE_LIMIT_EXCEEDED',
-        message: 'X API rate limit reached. Please try again later.'
+        error: 'API_ERROR',
+        message: `X API User Lookup returned: ${details}`
       })
     }
 
@@ -106,11 +118,23 @@ export default async function handler(req, res) {
       }
     )
 
-    if (searchRes.status === 429) {
-      return res.status(429).json({
+    if (!searchRes.ok) {
+      let xError = {}
+      try { xError = await searchRes.json() } catch (_) {}
+      const details = xError.detail || xError.title || `HTTP ${searchRes.status}`
+
+      if (searchRes.status === 429) {
+        return res.status(429).json({
+          success: false,
+          error: 'RATE_LIMIT_EXCEEDED',
+          message: 'X API Search rate limit reached. Please try again later.'
+        })
+      }
+
+      return res.status(searchRes.status).json({
         success: false,
-        error: 'RATE_LIMIT_EXCEEDED',
-        message: 'X API rate limit reached during search. Please try again later.'
+        error: 'API_SEARCH_FAILED',
+        message: `X API Search Failed: ${details}. Note: Free-tier Developer accounts do not support query search endpoints.`
       })
     }
 

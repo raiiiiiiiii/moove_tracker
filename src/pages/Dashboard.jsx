@@ -112,9 +112,15 @@ export default function Dashboard() {
             </div>
           )}
 
-          {errorState.code === 'API_AUTHENTICATION_FAILED' && (
+           {errorState.code === 'API_AUTHENTICATION_FAILED' && (
             <div className="error-tip">
-              <strong>Tip:</strong> The server bearer token is invalid or missing. Ensure process.env.X_BEARER_TOKEN is correctly set in your Vercel Dashboard.
+              <strong>Tip:</strong> The server bearer token is invalid or missing. If you are on the Free plan, note that X API Free tier doesn't allow searching other accounts. You will need a Basic tier or higher plan.
+            </div>
+          )}
+
+          {errorState.code === 'API_SEARCH_FAILED' && (
+            <div className="error-tip">
+              <strong>Tip:</strong> The search query failed. This usually indicates that the configured token doesn't have access to search endpoints (standard on X API Free plans). Consider upgrading your Twitter Developer project to Basic tier.
             </div>
           )}
 
