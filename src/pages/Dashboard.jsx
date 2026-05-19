@@ -124,6 +124,12 @@ export default function Dashboard() {
             </div>
           )}
 
+          {(errorState.code === 'API_ERROR' || errorState.message.toLowerCase().includes('credits')) && (
+            <div className="error-tip">
+              <strong>Plan Limit Reached:</strong> Your X Developer account does not have credits for lookups. <strong>X API Free Tier accounts have 0 credits</strong> for user lookup operations. You will need to upgrade to a <strong>Basic Plan ($100/mo)</strong> or higher in the X Developer Portal to scan live profiles.
+            </div>
+          )}
+
           <div className="error-actions">
             <Link to="/search" className="btn-error-back">
               Try Another Handle
