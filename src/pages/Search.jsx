@@ -11,18 +11,23 @@ export default function Search() {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    const clean = username.replace(/^@/, '').trim()
-    if (!clean) { setError('Please enter a username.'); return }
-    if (!/^[A-Za-z0-9_]{1,50}$/.test(clean)) {
-      setError('Enter a valid X username (letters, numbers, underscores only).')
+    const clean = username.trim().replace(/^@/, '')
+    
+    if (!clean) { 
+      setError('Please enter your X username.')
+      return 
+    }
+    if (clean.length > 15) {
+      setError('X usernames cannot exceed 15 characters.')
       return
     }
+    if (!/^[A-Za-z0-9_]+$/.test(clean)) {
+      setError('X usernames can only contain letters, numbers, and underscores.')
+      return
+    }
+    
     setError('')
-    setLoading(true)
-    // Simulate brief "fetching" delay for realism
-    setTimeout(() => {
-      navigate(`/dashboard/${clean}`)
-    }, 1800)
+    navigate(`/dashboard/${clean}`)
   }
 
   return (
@@ -40,11 +45,11 @@ export default function Search() {
         <div className="search-header">
           <div className="search-logo" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
             <MooveLogo size={24} color="var(--moove-yellow)" />
-            <span>Moove Tracker</span>
+            <span>Moove Tracker <span style={{ fontSize: '0.65rem', color: 'var(--moove-yellow)', border: '1px solid var(--border-accent)', padding: '1px 5px', borderRadius: '3px', marginLeft: '4px', textTransform: 'uppercase', fontWeight: '800' }}>Beta</span></span>
           </div>
           <h1 className="search-title">Enter your X username</h1>
           <p className="search-desc">
-            We'll analyze your public Moove-related activity and generate your contribution profile.
+            We'll estimate your activity from public visible actions across the Moove ecosystem and generate your contribution profile.
           </p>
         </div>
 
@@ -103,7 +108,7 @@ export default function Search() {
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/>
           </svg>
-          Analytics are based on public X activity. Simulated fallback active.
+          Analytics are estimated from public visible activity. Simulated fallback active.
         </div>
       </div>
     </div>

@@ -18,7 +18,7 @@ export default function Home() {
       <main className="home-hero">
         <div className="hero-eyebrow">
           <span className="eyebrow-dot" />
-          Community Analytics Platform
+          Community Activity Estimator (beta)
         </div>
 
         <h1 className="hero-headline">
@@ -28,8 +28,8 @@ export default function Home() {
         </h1>
 
         <p className="hero-sub">
-          Discover your activity score, contribution rank, and total engagement
-          across the Moove ecosystem — all from your public X activity.
+          Discover your activity score, contribution rank, and total engagement.
+          Analytics are estimated from public visible activity across the Moove ecosystem.
         </p>
 
         <Link to="/search" className="hero-cta" id="get-started-btn">
