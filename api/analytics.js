@@ -1,14 +1,22 @@
-import { ALL_RANKS } from '../src/utils/analytics.js'
+const RANKS = [
+  { name: 'Explorer',          min: 0,    max: 199,  color: '#8B9BB4', emoji: '🔍', basePercentile: 50 },
+  { name: 'Contributor',       min: 200,  max: 499,  color: '#60A5FA', emoji: '✨', basePercentile: 75 },
+  { name: 'Supporter',         min: 500,  max: 999,  color: '#A78BFA', emoji: '💜', basePercentile: 88 },
+  { name: 'Builder',           min: 1000, max: 1999, color: '#F59E0B', emoji: '🔨', basePercentile: 94 },
+  { name: 'Advocate',          min: 2000, max: 3999, color: '#F97316', emoji: '📣', basePercentile: 97.5 },
+  { name: 'Power Contributor', min: 4000, max: 7999, color: '#EF4444', emoji: '⚡', basePercentile: 99.2 },
+  { name: 'Moove Legend',      min: 8000, max: Infinity, color: '#FFD600', emoji: '🏆', basePercentile: 99.9 },
+]
 
 // Simple helper to get rank from score
 function getRank(score) {
-  return ALL_RANKS.find(r => score >= r.min && score <= r.max) || ALL_RANKS[ALL_RANKS.length - 1]
+  return RANKS.find(r => score >= r.min && score <= r.max) || RANKS[RANKS.length - 1]
 }
 
 // Calculate top percentile based on rank and position in that rank
 function calculatePercentile(rank, score) {
   let percentile = rank.basePercentile
-  const nextRank = ALL_RANKS[ALL_RANKS.indexOf(rank) + 1]
+  const nextRank = RANKS[RANKS.indexOf(rank) + 1]
   if (nextRank) {
     const range = nextRank.min - rank.min
     const progress = (score - rank.min) / range
@@ -239,7 +247,7 @@ export default async function handler(req, res) {
     let rankProgress = 100
     let nextRankMin = null
     let nextRankName = ''
-    const nextRank = ALL_RANKS[ALL_RANKS.indexOf(rank) + 1]
+    const nextRank = RANKS[RANKS.indexOf(rank) + 1]
     if (nextRank) {
       nextRankMin = nextRank.min
       nextRankName = nextRank.name
