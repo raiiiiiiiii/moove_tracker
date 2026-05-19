@@ -4,11 +4,7 @@
   "cleanUrls": true,
   "rewrites": [
     {
-      "source": "/api/analytics",
-      "destination": "/api/analytics.js"
-    },
-    {
-      "source": "/((?!assets/|api/|.*\\..*).*)",
+      "source": "/((?!assets/|api/|.*\\..*)*)",
       "destination": "/index.html"
     }
   ]
